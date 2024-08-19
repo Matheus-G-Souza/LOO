@@ -1,0 +1,26 @@
+public class Carro {
+  
+  private String parabrisa;
+  private Int eixos;
+  private Int portas;
+
+  public String getParabrisa(){
+    return this.parabrisa;
+  }
+  public Int getEixos(){
+    return this.eixos;
+  }
+  public Int getPortas(){
+    return this.portas;
+  }
+
+  public void setParabrisa(String parabrisa){
+    this.parabrisa = parabrisa;
+  }
+  public void setEixos(Int eixos){
+    this.eixos = eixos;
+  }
+  public void setPortas(Int portas){
+    this.portas = portas;
+  }
+}
