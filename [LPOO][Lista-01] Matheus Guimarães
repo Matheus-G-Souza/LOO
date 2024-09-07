@@ -1,0 +1,200 @@
+public class Carro {
+    private String marca;
+    private String modelo;
+    private int ano;
+
+    // Construtor
+    public Carro(String marca, String modelo, int ano) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.ano = ano;
+    }
+
+    // Getters e Setters
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+
+    // Método para exibir informações
+    public void exibirInformacoes() {
+        System.out.println("Marca: " + marca);
+        System.out.println("Modelo: " + modelo);
+        System.out.println("Ano: " + ano);
+    }
+
+    public static void main(String[] args) {
+        Carro carro = new Carro("Toyota", "Corolla", 2023);
+        carro.exibirInformacoes();
+    }
+}
+
+// Classe abstrata Veiculo
+abstract class Veiculo {
+    private String tipo;
+
+    // Construtor
+    public Veiculo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    // Método para exibir o tipo
+    public void exibirTipo() {
+        System.out.println("Tipo: " + tipo);
+    }
+
+    // Getter e Setter
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+}
+
+// Classe Moto que herda de Veiculo
+class Moto extends Veiculo {
+    private int cilindradas;
+
+    // Construtor
+    public Moto(String tipo, int cilindradas) {
+        super(tipo);
+        this.cilindradas = cilindradas;
+    }
+
+    // Getter e Setter para cilindradas
+    public int getCilindradas() {
+        return cilindradas;
+    }
+
+    public void setCilindradas(int cilindradas) {
+        this.cilindradas = cilindradas;
+    }
+
+    // Método main
+    public static void main(String[] args) {
+        Moto moto = new Moto("Esportiva", 600);
+        moto.exibirTipo();
+        System.out.println("Cilindradas: " + moto.getCilindradas());
+    }
+}
+
+// Atualizando a classe Carro com o método ligar()
+public class Carro {
+    private String marca;
+    private String modelo;
+    private int ano;
+
+    // Construtor
+    public Carro(String marca, String modelo, int ano) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.ano = ano;
+    }
+
+    // Getters e Setters
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+
+    // Método para exibir informações
+    public void exibirInformacoes() {
+        System.out.println("Marca: " + marca);
+        System.out.println("Modelo: " + modelo);
+        System.out.println("Ano: " + ano);
+    }
+
+    // Método ligar
+    public void ligar() {
+        System.out.println("O carro está ligado.");
+    }
+
+    public static void main(String[] args) {
+        // Criando um objeto da classe Carro
+        Carro carro = new Carro("Toyota", "Corolla", 2023);
+        carro.exibirInformacoes();
+        
+        Veiculo[] veiculos = new Veiculo[2];
+        
+        veiculos[0] = carro;
+        veiculos[1] = new Moto("Esportiva", 600);
+        
+        // Chamando o método ligar() para cada veículo
+        for (Veiculo veiculo : veiculos) {
+            veiculo.ligar();
+        }
+    }
+}
+
+// Atualizando a classe Moto com o método ligar()
+class Moto extends Veiculo {
+    private int cilindradas;
+
+    // Construtor
+    public Moto(String tipo, int cilindradas) {
+        super(tipo);
+        this.cilindradas = cilindradas;
+    }
+
+    // Getter e Setter para cilindradas
+    public int getCilindradas() {
+        return cilindradas;
+    }
+
+    public void setCilindradas(int cilindradas) {
+        this.cilindradas = cilindradas;
+    }
+
+    // Método ligar
+    @Override
+    public void ligar() {
+        System.out.println("A moto está ligada.");
+    }
+
+    // Método main na classe Moto
+    public static void main(String[] args) {
+        Moto moto = new Moto("Esportiva", 600);
+        moto.exibirTipo();
+        System.out.println("Cilindradas: " + moto.getCilindradas());
+    }
+}
