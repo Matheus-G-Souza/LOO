@@ -1,0 +1,355 @@
+import java.util.ArrayList;
+
+// Classe PessoaFisica
+class PessoaFisica {
+    private String nome;
+    private String cpf;
+    private int idade;
+    private String endereco;
+    private String telefone;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+}
+
+// Classe Aluno
+class Aluno extends PessoaFisica {
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+}
+
+// Classe Turma
+class Turma {
+    private String nomeTurma;
+    private String codigoTurma;
+    private String professor;
+    private ArrayList<Aluno> alunos;
+
+    public Turma(String nomeTurma, String codigoTurma, String professor) {
+        this.nomeTurma = nomeTurma;
+        this.codigoTurma = codigoTurma;
+        this.professor = professor;
+        this.alunos = new ArrayList<>();
+    }
+
+    public void adicionarAluno(Aluno aluno) {
+        alunos.add(aluno);
+    }
+
+    public void removerAluno(Aluno aluno) {
+        alunos.remove(aluno);
+    }
+
+    public ArrayList<Aluno> listarAlunos() {
+        return alunos;
+    }
+
+    public String getNomeTurma() {
+        return nomeTurma;
+    }
+
+    public void setNomeTurma(String nomeTurma) {
+        this.nomeTurma = nomeTurma;
+    }
+
+    public String getCodigoTurma() {
+        return codigoTurma;
+    }
+
+    public void setCodigoTurma(String codigoTurma) {
+        this.codigoTurma = codigoTurma;
+    }
+
+    public String getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(String professor) {
+        this.professor = professor;
+    }
+}
+
+// Classe Curso
+class Curso {
+    private String nomeCurso;
+    private String codigoCurso;
+    private String coordenador;
+    private ArrayList<Turma> turmas;
+
+    public Curso(String nomeCurso, String codigoCurso, String coordenador) {
+        this.nomeCurso = nomeCurso;
+        this.codigoCurso = codigoCurso;
+        this.coordenador = coordenador;
+        this.turmas = new ArrayList<>();
+    }
+
+    public void adicionarTurma(Turma turma) {
+        turmas.add(turma);
+    }
+
+    public void removerTurma(Turma turma) {
+        turmas.remove(turma);
+    }
+
+    public ArrayList<Turma> listarTurmas() {
+        return turmas;
+    }
+
+    public String getNomeCurso() {
+        return nomeCurso;
+    }
+
+    public void setNomeCurso(String nomeCurso) {
+        this.nomeCurso = nomeCurso;
+    }
+
+    public String getCodigoCurso() {
+        return codigoCurso;
+    }
+
+    public void setCodigoCurso(String codigoCurso) {
+        this.codigoCurso = codigoCurso;
+    }
+
+    public String getCoordenador() {
+        return coordenador;
+    }
+
+    public void setCoordenador(String coordenador) {
+        this.coordenador = coordenador;
+    }
+}
+
+// Classe Faculdade
+class Faculdade {
+    private String nomeFaculdade;
+    private String cnpj;
+    private String endereco;
+    private ArrayList<Curso> cursos;
+
+    public Faculdade(String nomeFaculdade, String cnpj, String endereco) {
+        this.nomeFaculdade = nomeFaculdade;
+        this.cnpj = cnpj;
+        this.endereco = endereco;
+        this.cursos = new ArrayList<>();
+    }
+
+    public void adicionarCurso(Curso curso) {
+        cursos.add(curso);
+    }
+
+    public void removerCurso(Curso curso) {
+        cursos.remove(curso);
+    }
+
+    public void editarNomeCurso(Curso curso, String novoNome) {
+        curso.setNomeCurso(novoNome);
+    }
+
+    public ArrayList<Curso> listarCursos() {
+        return cursos;
+    }
+
+    public String getNomeFaculdade() {
+        return nomeFaculdade;
+    }
+
+    public void setNomeFaculdade(String nomeFaculdade) {
+        this.nomeFaculdade = nomeFaculdade;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+}
+
+// Classe Main
+public class Main {
+    public static void main(String[] args) {
+        // Criar uma faculdade
+        Faculdade uniderp = new Faculdade("Uniderp", "12.345.678/0001-90", "Rua Exemplo, 123");
+
+        // Criar cursos
+        Curso curso1 = new Curso("Engenharia da Computação", "ENG1", "Prof. Murilo");
+        Curso curso2 = new Curso("Administração", "ADM1", "Prof. Rafaela");
+        Curso curso3 = new Curso("Psicologia", "PSI1", "Prof. Júlia");
+
+        // Adicionar cursos à faculdade
+        uniderp.adicionarCurso(curso1);
+        uniderp.adicionarCurso(curso2);
+        uniderp.adicionarCurso(curso3);
+
+        // Criar turmas
+        Turma turma1 = new Turma("Turma A", "T1", "Prof. Carlos");
+        Turma turma2 = new Turma("Turma B", "T2", "Prof. Carlos");
+        Turma turma3 = new Turma("Turma A", "T3", "Prof. Ana");
+        Turma turma4 = new Turma("Turma B", "T4", "Prof. Ana");
+        Turma turma5 = new Turma("Turma A", "T5", "Prof. Júlia");
+        Turma turma6 = new Turma("Turma B", "T6", "Prof. Júlia");
+
+        // Adicionar turmas aos cursos
+        curso1.adicionarTurma(turma1);
+        curso1.adicionarTurma(turma2);
+        curso2.adicionarTurma(turma3);
+        curso2.adicionarTurma(turma4);
+        curso3.adicionarTurma(turma5);
+        curso3.adicionarTurma(turma6);
+
+        // Criar alunos
+        Aluno aluno1 = new Aluno();
+        aluno1.setNome("João Silva");
+        aluno1.setCpf("123.456.789-00");
+        aluno1.setIdade(20);
+        aluno1.setEndereco("Rua 1, Cidade A");
+        aluno1.setTelefone("99999-0001");
+        aluno1.setEmail("joao@uniderp.br");
+
+        Aluno aluno2 = new Aluno();
+        aluno2.setNome("Maria Oliveira");
+        aluno2.setCpf("987.654.321-00");
+        aluno2.setIdade(21);
+        aluno2.setEndereco("Rua 2, Cidade B");
+        aluno2.setTelefone("99999-0002");
+        aluno2.setEmail("maria@uniderp.br");
+
+        Aluno aluno3 = new Aluno();
+        aluno3.setNome("José Santos");
+        aluno3.setCpf("456.789.123-00");
+        aluno3.setIdade(22);
+        aluno3.setEndereco("Rua 3, Cidade C");
+        aluno3.setTelefone("99999-0003");
+        aluno3.setEmail("jose@uniderp.br");
+
+        Aluno aluno4 = new Aluno();
+        aluno4.setNome("Ana Costa");
+        aluno4.setCpf("321.654.987-00");
+        aluno4.setIdade(23);
+        aluno4.setEndereco("Rua 4, Cidade D");
+        aluno4.setTelefone("99999-0004");
+        aluno4.setEmail("ana@uniderp.br");
+
+        Aluno aluno5 = new Aluno();
+        aluno5.setNome("Bruno Lima");
+        aluno5.setCpf("654.321.789-00");
+        aluno5.setIdade(24);
+        aluno5.setEndereco("Rua 5, Cidade E");
+        aluno5.setTelefone("99999-0005");
+        aluno5.setEmail("bruno@uniderp.br");
+
+        Aluno aluno6 = new Aluno();
+        aluno6.setNome("Clara Martins");
+        aluno6.setCpf("789.123.456-00");
+        aluno6.setIdade(21);
+        aluno6.setEndereco("Rua 6, Cidade F");
+        aluno6.setTelefone("99999-0006");
+        aluno6.setEmail("clara@uniderp.br");
+
+        // Adicionar alunos às turmas
+        turma1.adicionarAluno(aluno1);
+        turma1.adicionarAluno(aluno2);
+        turma1.adicionarAluno(aluno3);
+        
+        turma2.adicionarAluno(aluno4);
+        turma2.adicionarAluno(aluno5);
+        turma2.adicionarAluno(aluno6);
+
+        turma3.adicionarAluno(aluno1);
+        turma3.adicionarAluno(aluno2);
+        turma3.adicionarAluno(aluno4);
+
+        turma4.adicionarAluno(aluno3);
+        turma4.adicionarAluno(aluno5);
+        turma4.adicionarAluno(aluno6);
+
+        turma5.adicionarAluno(aluno1);
+        turma5.adicionarAluno(aluno2);
+        turma5.adicionarAluno(aluno3);
+
+        turma6.adicionarAluno(aluno4);
+        turma6.adicionarAluno(aluno5);
+        turma6.adicionarAluno(aluno6);
+
+        // Remover um curso
+        uniderp.removerCurso(curso2);
+
+        // Editar o nome de um curso
+        uniderp.editarNomeCurso(curso1, "Engenharia de Software");
+
+        // Remover um aluno de uma turma
+        turma1.removerAluno(aluno2);
+
+        // Alterar o nome e e-mail de outro aluno
+        aluno3.setNome("José da Silva");
+        aluno3.setEmail("jose.silva@uniderp.br");
+
+        // Exibir informações da faculdade, cursos, turmas e alunos
+        System.out.println("Faculdade: " + uniderp.getNomeFaculdade());
+        System.out.println("Cursos oferecidos:");
+
+        for (Curso curso : uniderp.listarCursos()) {
+            System.out.println(" - " + curso.getNomeCurso() + " (Código: " + curso.getCodigoCurso() + ")");
+            for (Turma turma : curso.listarTurmas()) {
+                System.out.println("   - Turma: " + turma.getNomeTurma() + " | Professor: " + turma.getProfessor());
+                for (Aluno aluno : turma.listarAlunos()) {
+                    System.out.println("     - Aluno: " + aluno.getNome() + " | Email: " + aluno.getEmail());
+                }
+            }
+        }
+    }
+}
