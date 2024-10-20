@@ -1,0 +1,385 @@
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Scanner;
+
+public class Aluno extends PessoaFisica implements IMatriculavel {
+    private String rga;
+    private boolean matriculado;
+
+    public Aluno(int idade, String cpf, String nome) {
+        super(idade, cpf, nome);
+        this.rga = null;
+        this.matriculado = false;
+    }
+
+    public Aluno(String nome, String cpf) {
+        super(nome, cpf);
+        this.rga = null;
+        this.matriculado = false;
+    }
+
+    public String getRga() {
+        return rga;
+    }
+
+    public void setRga(String rga) {
+        this.rga = rga;
+    }
+
+    public boolean getMatriculado() {
+        return matriculado;
+    }
+
+    public void setMatriculado(boolean matriculado) {
+        this.matriculado = matriculado;
+    }
+
+    @Override
+    public String getIdentificacao() {
+        return getCpf();
+    }
+
+    @Override
+    public String toString() {
+        return "Aluno{" +
+               "idade=" + getIdade() +
+               ", cpf='" + getCpf() + '\'' +
+               ", nome='" + getNome() + '\'' +
+               ", rga='" + rga + '\'' +
+               '}';
+    }
+
+    @Override
+    public void matricular(String rga) {
+        this.matriculado = true;
+        this.rga = rga;
+    }
+
+    @Override
+    public void cancelarMatricula() {
+        this.matriculado = false;
+        this.rga = null;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Aluno aluno = (Aluno) obj;
+        return rga.equals(aluno.rga);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(rga);
+    }
+}
+
+public class App {
+    public static void main(String[] args) {
+        SistemaEscola sistemaEscola = new SistemaEscola();
+        sistemaEscola.executar();
+    }
+}
+
+public interface IMatriculavel {
+    void matricular(String rga);
+    void cancelarMatricula();
+}
+
+public abstract class PessoaFisica {
+    private int idade;
+    private String cpf;
+    private String nome;
+
+    public PessoaFisica(int idade, String cpf, String nome) {
+        this.idade = idade;
+        this.cpf = cpf;
+        this.nome = nome;
+    }
+
+    public PessoaFisica(String nome, String cpf) {
+        this.cpf = cpf;
+        this.nome = nome;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int calcularAnoNascimento() {
+        int anoAtual = java.time.Year.now().getValue();
+        return anoAtual - this.idade;
+    }
+
+    public abstract String getIdentificacao();
+
+    @Override
+    public String toString() {
+        return "PessoaFisica{" +
+               "idade=" + idade +
+               ", cpf='" + cpf + '\'' +
+               ", nome='" + nome + '\'' +
+               '}';
+    }
+}
+
+public class Turma {
+    private ArrayList<Aluno> alunos;
+    private String nome;
+    private String codigo; // Novo atributo
+
+    public Turma(String nome, String codigo) {
+        this.alunos = new ArrayList<>();
+        this.nome = nome;
+        this.codigo = codigo;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public void adicionarAluno(Aluno aluno) {
+        int anoAtual = java.time.Year.now().getValue();
+        String novoRga = nome + "/" + anoAtual + "-" + aluno.getCpf();
+        aluno.matricular(novoRga);
+        alunos.add(aluno);
+    }
+
+    public void removerAluno(int indice) {
+        if (indice >= 0 && indice < alunos.size()) {
+            alunos.remove(indice);
+        } else {
+            System.out.println("Índice inválido.");
+        }
+    }
+
+    public void removerAluno(Aluno aluno) {
+        if (alunos.remove(aluno)) {
+            System.out.println("Aluno removido com sucesso.");
+        } else {
+            System.out.println("Aluno não encontrado.");
+        }
+    }
+
+    public void listarAlunos() {
+        for (int i = 0; i < alunos.size(); i++) {
+            Aluno aluno = alunos.get(i);
+            System.out.println("Posição do ArrayList [" + i + "] " + aluno.getNome() + "/" + aluno.getRga());
+        }
+    }
+
+    public void removerTodosAlunos() {
+        System.out.print("Você tem certeza que deseja remover todos alunos da turma? 1. Sim 2. Não: ");
+        Scanner scanner = new Scanner(System.in);
+        int opcao = scanner.nextInt();
+        scanner.nextLine(); // Limpa o buffer
+
+        if (opcao == 1) {
+            alunos.clear();
+            System.out.println("Todos os alunos foram removidos da turma.");
+        } else {
+            System.out.println("Ação cancelada.");
+        }
+    }
+}
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class SistemaEscola {
+    private Scanner scanner = new Scanner(System.in);
+    private ArrayList<Aluno> alunosCadastrados = new ArrayList<>();
+    private ArrayList<Turma> turmasCadastradas = new ArrayList<>();
+
+    public void executar() {
+        int opcao;
+
+        do {
+            System.out.println("\n--- Menu ---");
+            System.out.println("1. Cadastrar Aluno");
+            System.out.println("2. Inserir Aluno na Turma");
+            System.out.println("3. Listar Alunos da Turma");
+            System.out.println("4. Cadastrar Turma");
+            System.out.println("5. Remover Aluno da Turma");
+            System.out.println("6. Definir Idade de um Aluno");
+            System.out.println("7. Remover Todos Alunos de uma Turma");
+            System.out.println("9. Sair");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcao) {
+                case 1:
+                    cadastrarAluno();
+                    break;
+                case 2:
+                    inserirAlunoNaTurma();
+                    break;
+                case 3:
+                    listarAlunosDaTurma();
+                    break;
+                case 4:
+                    cadastrarTurma();
+                    break;
+                case 5:
+                    removerAlunoDaTurma();
+                    break;
+                case 6:
+                    definirIdadeAluno();
+                    break;
+                case 7:
+                    removerTodosAlunosDaTurma();
+                    break;
+                case 9:
+                    System.out.println("Saindo do sistema...");
+                    break;
+                default:
+                    System.out.println("Opção inválida! Tente novamente.");
+            }
+        } while (opcao != 9);
+    }
+
+    public void cadastrarAluno() {
+        System.out.print("Digite o nome do aluno: ");
+        String nome = scanner.nextLine();
+        System.out.print("Digite o CPF do aluno: ");
+        String cpf = scanner.nextLine();
+
+        Aluno aluno = new Aluno(nome, cpf);
+        alunosCadastrados.add(aluno);
+        System.out.println("Aluno cadastrado com sucesso!");
+    }
+
+    public void inserirAlunoNaTurma() {
+        System.out.print("Digite o código da turma: ");
+        String codigo = scanner.nextLine();
+        Turma turma = buscarTurmaPorCodigo(codigo);
+
+        if (turma != null) {
+            System.out.print("Digite o CPF do aluno a ser inserido: ");
+            String cpf = scanner.nextLine();
+
+            Aluno aluno = buscarAlunoPorCpf(cpf);
+            if (aluno != null) {
+                turma.adicionarAluno(aluno);
+            } else {
+                System.out.println("Aluno não encontrado.");
+            }
+        } else {
+            System.out.println("Turma não encontrada.");
+        }
+    }
+
+    public void listarAlunosDaTurma() {
+        System.out.print("Digite o código da turma: ");
+        String codigo = scanner.nextLine();
+        Turma turma = buscarTurmaPorCodigo(codigo);
+
+        if (turma != null) {
+            turma.listarAlunos();
+        } else {
+            System.out.println("Turma não encontrada.");
+        }
+    }
+
+    public void cadastrarTurma() {
+        System.out.print("Digite o nome da turma: ");
+        String nome = scanner.nextLine();
+        System.out.print("Digite o código da turma: ");
+        String codigo = scanner.nextLine();
+
+        Turma turma = new Turma(nome, codigo);
+        turmasCadastradas.add(turma);
+        System.out.println("Turma cadastrada com sucesso!");
+    }
+
+    public void removerAlunoDaTurma() {
+        System.out.print("Digite o CPF do aluno a ser removido: ");
+        String cpf = scanner.nextLine();
+
+        Aluno aluno = buscarAlunoPorCpf(cpf);
+        if (aluno != null) {
+            System.out.print("Digite o código da turma: ");
+            String codigo = scanner.nextLine();
+            Turma turma = buscarTurmaPorCodigo(codigo);
+            if (turma != null) {
+                turma.removerAluno(aluno);
+            } else {
+                System.out.println("Turma não encontrada.");
+            }
+        } else {
+            System.out.println("Aluno não encontrado.");
+        }
+    }
+
+    public void definirIdadeAluno() {
+        System.out.print("Digite o CPF do aluno a ser editado: ");
+        String cpf = scanner.nextLine();
+
+        Aluno aluno = buscarAlunoPorCpf(cpf);
+        if (aluno != null) {
+            System.out.print("Digite a idade do aluno: " + aluno.getNome() + ": ");
+            int idade = scanner.nextInt();
+            scanner.nextLine(); // Limpa o buffer
+            aluno.setIdade(idade);
+            System.out.println("Dados do aluno: " + aluno);
+        } else {
+            System.out.println("Aluno não encontrado.");
+        }
+    }
+
+    public void removerTodosAlunosDaTurma() {
+        System.out.print("Digite o código da turma: ");
+        String codigo = scanner.nextLine();
+        Turma turma = buscarTurmaPorCodigo(codigo);
+
+        if (turma != null) {
+            turma.removerTodosAlunos();
+        } else {
+            System.out.println("Turma não encontrada.");
+        }
+    }
+
+    public Aluno buscarAlunoPorCpf(String cpf) {
+        for (Aluno aluno : alunosCadastrados) {
+            if (aluno.getCpf().equals(cpf)) {
+                return aluno;
+            }
+        }
+        return null;
+    }
+
+    public Turma buscarTurmaPorCodigo(String codigo) {
+        for (Turma turma : turmasCadastradas) {
+            if (turma.getCodigo().equals(codigo)) {
+                return turma;
+            }
+        }
+        return null;
+    }
+}
